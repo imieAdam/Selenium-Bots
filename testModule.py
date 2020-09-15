@@ -1,5 +1,6 @@
 from portalPacjenta.chromeObjects import existingChrome as EC
 from portalPacjenta.pageObjects.loginPage import loginPage as loginPage
+from portalPacjenta.pageObjects.mainPage import mainPage as mainPage
 from portalPacjenta.configObjects import config_reader
 
 try:
@@ -18,6 +19,7 @@ assert "LUX MED" in driver.title
 
 logingPage = loginPage(driver)
 logingPage.login(driver, "belica.adam@gmail.com", "luxmed", "belica.a")
-mainPage = portalPacjenta_mainPage(driver, "belica.adam@gmail.com")
+loginPage = None
+mainPage = mainPage(driver, "belica.adam@gmail.com")
 mainPage.clickBookAVisit()
 mainPage = None

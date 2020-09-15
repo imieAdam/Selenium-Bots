@@ -36,7 +36,8 @@ def getAvailableDateAndDiv(driver, service, dateDivs) -> tuple:
                 for timeFrame in service['timeFrames']:
                     if ((availableDate.time() >= datetime.strptime(timeFrame['start'], "%H:%M").time() and 
                         availableDate.time() <= datetime.strptime(timeFrame['end'], "%H:%M").time()) and
-                        (not service['bookedDateTime'] or availableDate <  datetime.strptime(service['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f'))):
+                        (not service['bookedDateTime'] or 
+                        availableDate <  datetime.strptime(service['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f'))):
                         return (availableDate, dateDiv)
     raise Exception("No visit available")
 

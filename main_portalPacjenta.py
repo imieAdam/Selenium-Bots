@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-
+from datetime import datetime
 import config_reader
 import existingChrome
 import portalPacjenta_results
@@ -22,6 +22,9 @@ driver.get("https://rezerwacja.luxmed.pl/start/portalpacjenta")
 assert "LUX MED" in driver.title
 
 dataFull = config_reader.getConfigJsonData()
+if datetime.strptime(dataFull['services'][0]['service']['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f') < datetime.now():
+    dataFull['services'][0]['service']['bookedDateTime'] = ""
+    config_reader.writeToConfig(dataFull)
 
 portalPacjenta_loginPage(driver).login(driver, "belica.adam@gmail.com", "luxmed", "belica.a")
 mainPage = portalPacjenta_mainPage(driver, "belica.adam@gmail.com")
@@ -44,3 +47,4 @@ try:
 finally:
     #print("Close driver")
     driver.close()
+    pass
