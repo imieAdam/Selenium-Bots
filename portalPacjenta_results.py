@@ -30,7 +30,7 @@ def getAvailableDatesDivs(driver):
 def getAvailableDateAndDiv(driver, service, dateDivs) -> tuple:
     for dateDiv in dateDivs:
         availableDate = getAvailableDate(dateDiv.find_element_by_class_name("title.h4.m-0").text)
-        if not service['notBefore'] or availableDate >= datetime.strptime(service['notBefore'], "%Y-%m-%d"):
+        if not service['afterDate'] or availableDate >= datetime.strptime(service['afterDate'], "%Y-%m-%d"):
             for line in dateDiv.find_elements_by_class_name("time"):
                 availableDate = availableDate.replace(hour=int(line.text.split(":")[0]), minute=int(line.text.split(":")[1]))
                 for timeFrame in service['timeFrames']:
