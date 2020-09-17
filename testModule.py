@@ -1,6 +1,6 @@
 from portalPacjenta.chromeObjects import existingChrome as EC
-from portalPacjenta.pageObjects.loginPage import loginPage as loginPage
-from portalPacjenta.pageObjects.mainPage import mainPage as mainPage
+from portalPacjenta.pageObjects.loginPage import loginPage
+from portalPacjenta.pageObjects.mainPage import mainPage
 from portalPacjenta.configObjects import config_reader
 
 try:
