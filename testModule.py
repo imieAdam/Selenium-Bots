@@ -5,7 +5,7 @@ from portalPacjenta.configObjects import config_reader
 
 try:
     EC.checkForChromeInstance("chrome.exe", "--remote-debugging-port=9222")
-    driver = existingChrome.getExistingChrome(r"C:\Users\Adam_Belica\Chrome Drive\chromedriver.exe")
+    driver = EC.getExistingChrome(r"C:\Users\Adam_Belica\Chrome Drive\chromedriver.exe")
 except EC.InstanceException:
     EC.runChrome(r"'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' --remote-debugging-port=9222")
     driver = EC.getExistingChrome(r"C:\Users\Adam_Belica\Chrome Drive\chromedriver.exe")
