@@ -22,7 +22,8 @@ driver.get("https://rezerwacja.luxmed.pl/start/portalpacjenta")
 assert "LUX MED" in driver.title
 
 dataFull = config_reader.getConfigJsonData()
-if datetime.strptime(dataFull['services'][0]['service']['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f') < datetime.now():
+if (dataFull['services'][0]['service']['bookedDateTime'] and
+    datetime.strptime(dataFull['services'][0]['service']['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f') < datetime.now()):
     dataFull['services'][0]['service']['bookedDateTime'] = ""
     config_reader.writeToConfig(dataFull)
 
