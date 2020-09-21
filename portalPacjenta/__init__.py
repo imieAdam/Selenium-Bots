@@ -16,6 +16,7 @@ if __name__ == "__main__":
         raise
 
     searchPage = searchPage(driver, 3)
-    searchPage.searchAndSelect(By.ID, "city", "text-higlight", "Kraków")
-    searchPage.searchAndSelect(By.ID, "serviceVariant", "multi-select-item.leaf-item", "Stomatolog")
-    searchPage.searchAndSelectDropdown(By.TAG_NAME, "app-select-multi-facilities", "pt-1", "ul. Opolska 114")
+    searchPage.searchAndSelect("city", "Kraków")
+    searchPage.searchAndSelect("serviceVariant", "Stomatolog")
+    searchPage.searchAndSelectDropdown(By.TAG_NAME, "facilities", "dropdown-list-group-item", "dropdown-chevron-click-area", "ul. Opolska 114")
+    #searchPage.clickSearch()
