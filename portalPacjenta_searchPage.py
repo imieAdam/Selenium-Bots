@@ -12,10 +12,26 @@ class portalPacjenta_searchPage:
     def searchAndSelect(self, by, field, dropdownClass, searchString, clear = False):
         WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element((By.CLASS_NAME, "spinner-wrapper")))
         mainElement = WebDriverWait(self.driver, self.delay).until(EC.presence_of_element_located((by, field)))
-        mainElement.find_element_by_class_name("form-control.text-input.text-input-transparent.ng-untouched.ng-pristine.ng-valid").click()
+        #mainElement.find_element_by_class_name("dropdown-chevron-click-area").click()
+        #WebDriverWait(self.driver, self.delay).until(EC.element_to_be_clickable((By.CLASS_NAME, "dropdown-chevron-click-area"))).click()
+        
+        try:
+            WebDriverWait(self.driver, self.delay).until(EC.element_to_be_clickable((By.CLASS_NAME, "form-control.text-input.text-input-transparent.ng-untouched.ng-pristine.ng-valid"))).click()
+            #mainElement.find_elements_by_xpath("//input")[0].click()
+            #self.driver.execute_script("arguments[0].click();",mainElement.find_elements_by_xpath("//input")[0])
+            mainElement.find_elements_by_xpath("//input")[0].send_keys(searchString)
+            print("index 0 clicked")
+        except:
+            WebDriverWait(self.driver, self.delay).until(EC.element_to_be_clickable((By.CLASS_NAME, "form-control.dropdown-form-control.ng-pristine.has-value.ng-valid.ng-touched"))).click()
+            #mainElement.find_elements_by_xpath("//input")[1].click()
+            #self.driver.execute_script("arguments[0].click();",mainElement.find_elements_by_xpath("//input")[1])
+            mainElement.find_elements_by_xpath("//input")[1].send_keys(searchString)
+            print("index 1 clicked")
         #mainElement.find_element_by_xpath("//input[1]").click()
         #form-control text-input ng-untouched ng-pristine ng-valid text-input-transparent
-        mainElement.find_element_by_class_name("form-control.text-input.text-input-transparent.ng-untouched.ng-pristine.ng-valid").send_keys(searchString)
+        
+        #mainElement.find_element_by_class_name("form-control.text-input.text-input-transparent.ng-untouched.ng-pristine.ng-valid").send_keys(searchString)
+        #WebDriverWait(self.driver, self.delay).until(EC.element_to_be_clickable((By.CLASS_NAME, "form-control dropdown-form-control ng-pristine ng-valid ng-touched"))).send_keys(searchString)
 
         for el in mainElement.find_elements_by_class_name(dropdownClass):
             if searchString == el.text:
@@ -48,3 +64,6 @@ class portalPacjenta_searchPage:
             return False
         except:
             return True
+
+if __name__ == "__main__":
+    import

@@ -6,6 +6,13 @@ def getConfigJsonData():
         data = json.load(f)
         return data
 
+def checkBookedDate(data) ->str:
+    if (data['services'][0]['service']['bookedDateTime'] and
+    datetime.strptime(data['services'][0]['service']['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f') < datetime.now()):
+        data['services'][0]['service']['bookedDateTime'] = ""
+    return data
+
+
 def formatDateTimeString()->str:
     return '%Y-%m-%dT%H:%M:%S.%f'
 
