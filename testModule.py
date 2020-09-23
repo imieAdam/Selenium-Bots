@@ -6,7 +6,6 @@ from portalPacjenta.configObjects import config_reader
 from selenium.webdriver.common.by import By
 
 driver = EC.startChrome()
-
 dataFull = config_reader.getConfigJsonData()
 """
 if datetime.strptime(dataFull['services'][0]['service']['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f') < datetime.now():
@@ -28,4 +27,5 @@ searchPage = searchPage(driver, 3)
 searchPage.searchAndSelect("city", "Kraków")
 searchPage.searchAndSelect("serviceVariant", "Stomatolog")
 searchPage.searchAndSelectDropdown(By.TAG_NAME, "facilities", "dropdown-list-group-item", "dropdown-chevron-click-area", "ul. Opolska 114")
+searchPage.visibilityOfXPath("//*[@id='facilities']//*[@class='dropdown-multiselect-clear']")
 searchPage.clickSearch()

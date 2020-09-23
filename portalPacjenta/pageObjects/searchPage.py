@@ -34,11 +34,16 @@ class searchPage:
     def clickSearch(self):
         btn = self.driver.find_element_by_class_name("btn.btn-success.btn-lg.mb-10.btn-search")
         self.driver.execute_script("arguments[0].click();", btn)
+        WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element_located((By.CLASS_NAME, "btn.btn-success.btn-lg.mb-10.btn-search")))
 
     def checkResults(self):
+        WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element_located((By.XPATH, "//*[@class='item']")))
         try:
             WebDriverWait(self.driver, self.delay).until(EC.presence_of_element_located((By.CLASS_NAME, "no-terms-message.text-center.mx-4")))
             print("No visits available")
             return False
         except:
             return True
+
+    def visibilityOfXPath(self, xpath):
+        WebDriverWait(self.driver, self.delay).until(EC.presence_of_element_located((By.XPATH, xpath)))
