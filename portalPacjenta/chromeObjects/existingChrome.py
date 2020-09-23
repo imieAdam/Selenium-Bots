@@ -38,6 +38,16 @@ class InstanceException(Exception):
     def __init__(self, message):
         self.message = message
 
+def startChrome() -> webdriver:
+    try:
+        checkForChromeInstance("chrome.exe", "--remote-debugging-port=9222")
+        return getExistingChrome(r"C:\Users\Adam_Belica\Chrome Drive\chromedriver.exe")
+    except InstanceException:
+        runChrome(r"'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' --remote-debugging-port=9222")
+        return getExistingChrome(r"C:\Users\Adam_Belica\Chrome Drive\chromedriver.exe")
+    except:
+        raise
+
 if __name__ == '__main__':
     from portalPacjenta_searchPage import portalPacjenta_searchPage
 

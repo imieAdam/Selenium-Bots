@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 
 class searchPage:
 
-    def __init__(self, driver, delay):
+    def __init__(self, driver, delay = 3):
         self.driver = driver
         self.delay = delay
 

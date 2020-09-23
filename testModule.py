@@ -1,16 +1,11 @@
 from portalPacjenta.chromeObjects import existingChrome as EC
 from portalPacjenta.pageObjects.loginPage import loginPage
 from portalPacjenta.pageObjects.mainPage import mainPage
+from portalPacjenta.pageObjects.searchPage import searchPage
 from portalPacjenta.configObjects import config_reader
+from selenium.webdriver.common.by import By
 
-try:
-    EC.checkForChromeInstance("chrome.exe", "--remote-debugging-port=9222")
-    driver = EC.getExistingChrome(r"C:\Users\Adam_Belica\Chrome Drive\chromedriver.exe")
-except EC.InstanceException:
-    EC.runChrome(r"'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' --remote-debugging-port=9222")
-    driver = EC.getExistingChrome(r"C:\Users\Adam_Belica\Chrome Drive\chromedriver.exe")
-except:
-    raise
+driver = EC.startChrome()
 
 dataFull = config_reader.getConfigJsonData()
 """
@@ -28,3 +23,9 @@ loginPage = None
 mainPage = mainPage(driver, "belica.adam@gmail.com")
 mainPage.clickBookAVisit()
 mainPage = None
+
+searchPage = searchPage(driver, 3)
+searchPage.searchAndSelect("city", "Kraków")
+searchPage.searchAndSelect("serviceVariant", "Stomatolog")
+searchPage.searchAndSelectDropdown(By.TAG_NAME, "facilities", "dropdown-list-group-item", "dropdown-chevron-click-area", "ul. Opolska 114")
+searchPage.clickSearch()

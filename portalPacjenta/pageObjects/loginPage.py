@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 class loginPage:
 
-    def __init__(self, driver):
+    def __init__(self, driver, delay = 3):
         driver : webdriver
         self.driver = driver
 
