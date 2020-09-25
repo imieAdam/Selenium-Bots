@@ -16,7 +16,7 @@ class portalPacjenta_searchPage:
         #WebDriverWait(self.driver, self.delay).until(EC.element_to_be_clickable((By.CLASS_NAME, "dropdown-chevron-click-area"))).click()
         
         try:
-            WebDriverWait(self.driver, self.delay).until(EC.element_to_be_clickable((By.CLASS_NAME, "form-control.text-input.text-input-transparent.ng-untouched.ng-pristine.ng-valid"))).click()
+            WebDriverWait(self.driver, self.delay).until(EC.element_to_be_clickable((By.XPATH, "//*[@id='city']//input"))).click()
             #mainElement.find_elements_by_xpath("//input")[0].click()
             #self.driver.execute_script("arguments[0].click();",mainElement.find_elements_by_xpath("//input")[0])
             mainElement.find_elements_by_xpath("//input")[0].send_keys(searchString)
@@ -66,4 +66,4 @@ class portalPacjenta_searchPage:
             return True
 
 if __name__ == "__main__":
-    import
+    pass

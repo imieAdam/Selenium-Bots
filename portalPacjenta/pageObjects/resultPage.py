@@ -9,10 +9,11 @@ from config_reader import getConfigJsonData
 from config_reader import writeToConfig
 
 class resultPage:
-    def __init__(self, driver):
-        self.driver = driver    
+    def __init__(self, driver, delay = 3):
+        self.driver = driver
+        self.delay = delay    
 
-    def getAvailableDate(self, rawDate) -> datetime:
+    def __getAvailableDate(self, rawDate) -> datetime:
         locale.setlocale(locale.LC_TIME, "pl")
         for i in range(1,12):
             if datetime.strptime(str(i).zfill(2), '%m').strftime('%b') in rawDate.split(',')[0].split(' ')[1]:
@@ -25,16 +26,16 @@ class resultPage:
     def checkXpath(self):
         self.driver.find_element_by_xpath("/html/body/modal-container/div/div/form/div[2]/div/button[1]")
 
-    def getAvailableDatesDivs(self):
+    def __getAvailableDatesDivs(self) -> object:
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "card.card-no-border.card-box-shadow.p-0")))
         dateDivs = self.driver.find_elements_by_class_name("card.card-no-border.card-box-shadow.p-0")
         return dateDivs
 
 
-    def getAvailableDateAndDiv(self, service, dateDivs) -> tuple:
+    def __getAvailableDateAndDiv(self, service, dateDivs) -> tuple:
         for dateDiv in dateDivs:
-            availableDate = self.getAvailableDate(dateDiv.find_element_by_class_name("title.h4.m-0").text)
-            if not service['notBefore'] or availableDate >= datetime.strptime(service['notBefore'], "%Y-%m-%d"):
+            availableDate = self.__getAvailableDate(dateDiv.find_element_by_class_name("title.h4.m-0").text)
+            if not service['afterDate'] or availableDate >= datetime.strptime(service['afterDate'], "%Y-%m-%d"):
                 for line in dateDiv.find_elements_by_class_name("time"):
                     availableDate = availableDate.replace(hour=int(line.text.split(":")[0]), minute=int(line.text.split(":")[1]))
                     for timeFrame in service['timeFrames']:
@@ -44,7 +45,7 @@ class resultPage:
                             return (availableDate, dateDiv)
         raise Exception("No visit available")
 
-    def selectAvailableDate(self, dateDiv) -> None:
+    def __selectAvailableDate(self, dateDiv) -> None:
         ActionChains(self.driver).move_to_element(dateDiv.find_elements_by_class_name("term-item")[0].find_element_by_class_name("chevron")).perform()
         dateDiv.find_elements_by_class_name("term-item")[0].find_element_by_class_name("btn.btn-primary").click()
         WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.XPATH, "//div[@class='modal-dialog modal-dialog-centered']//button[@class='btn btn-primary']")))
@@ -57,3 +58,10 @@ class resultPage:
 
     def updateJsonWithDate(self, availableDate):
         pass
+
+    def selectVisit(self, service) -> str:
+        divs = self.__getAvailableDatesDivs()
+        dateDetails = self.__getAvailableDateAndDiv(service['services'][0]['service'], divs)
+        self.__selectAvailableDate(dateDetails[1])
+        service['services'][0]['service']['bookedDateTime'] =  dateDetails[0].isoformat(timespec='milliseconds')
+        return service
