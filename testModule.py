@@ -2,7 +2,7 @@ from portalPacjenta.chromeObjects import existingChrome as EC
 from portalPacjenta.pageObjects.loginPage import loginPage
 from portalPacjenta.pageObjects.mainPage import mainPage
 from portalPacjenta.pageObjects.searchPage import searchPage
-from portalPacjenta.pageObjects.resultPage import resultPage
+from portalPacjenta.pageObjects.resultPage import ResultPage
 from portalPacjenta.configObjects import config_reader
 from selenium.webdriver.common.by import By
 
@@ -27,12 +27,13 @@ mainPage = None
 searchPage = searchPage(driver, 3)
 searchPage.searchAndSelect("city", "Kraków")
 searchPage.searchAndSelect("serviceVariant", "Stomatolog")
-searchPage.searchAndSelectDropdown(By.TAG_NAME, "facilities", "dropdown-list-group-item", "dropdown-chevron-click-area", "ul. Opolska 114")
+searchPage.searchAndSelectDropdown(By.TAG_NAME, "facilities", 
+                                    "dropdown-list-group-item", "dropdown-chevron-click-area", "ul. Opolska 114")
 searchPage.visibilityOfXPath("//*[@id='facilities']//*[@class='dropdown-multiselect-clear']")
 searchPage.clickSearch()
 
 if searchPage.checkResults():
-    resultPage = resultPage(driver, 3)
+    resultPage = ResultPage(driver, 3)
     try:
         dataFull = resultPage.selectVisit(dataFull)
         config_reader.writeToConfig(dataFull)

@@ -8,17 +8,20 @@ import locale
 from config_reader import getConfigJsonData
 from config_reader import writeToConfig
 
-class resultPage:
+class ResultPage:
     def __init__(self, driver, delay = 3):
         self.driver = driver
-        self.delay = delay    
+        self.delay = delay
+        self.PLMONTHS = ['sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie',
+                        'wrz', 'paź', 'lis', 'gru']    
 
     def __getAvailableDate(self, rawDate) -> datetime:
         locale.setlocale(locale.LC_TIME, "pl")
-        for i in range(1,12):
-            if datetime.strptime(str(i).zfill(2), '%m').strftime('%b') in rawDate.split(',')[0].split(' ')[1]:
-                return(datetime.strptime( rawDate.split(',')[0].split(' ')[0] + '-' + str(i).zfill(2) + '-' + str(datetime.today().year), "%d-%m-%Y"))
-        return ""
+        for i in range(1, 12):
+            #if datetime.strptime(str(i).zfill(2), '%m').strftime('%b') in rawDate.split(',')[0].split(' ')[1]:
+            if self.PLMONTHS[i-1] in rawDate.split(',')[0].split(' ')[1]:
+                return(datetime.strptime(rawDate.split(',')[0].split(' ')[0] + '-' + str(i).zfill(2) + '-' + str(datetime.today().year), "%d-%m-%Y"))
+        raise Exception("Invalid date format: " + str(rawDate))
 
     def getAvailableTime(self, rawTime) -> str:
         return ""
@@ -41,7 +44,7 @@ class resultPage:
                     for timeFrame in service['timeFrames']:
                         if ((availableDate.time() >= datetime.strptime(timeFrame['start'], "%H:%M").time() and 
                             availableDate.time() <= datetime.strptime(timeFrame['end'], "%H:%M").time()) and
-                            (not service['bookedDateTime'] or availableDate <  datetime.strptime(service['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f'))):
+                            (not service['bookedDateTime'] or availableDate < datetime.strptime(service['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f'))):
                             return (availableDate, dateDiv)
         raise Exception("No visit available")
 

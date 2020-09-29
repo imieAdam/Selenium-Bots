@@ -11,7 +11,7 @@ class searchPage:
 
     def searchAndSelect(self, fieldID, searchString):
         WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element((By.CLASS_NAME, "spinner-wrapper")))
-        mainElement = self.driver.find_elements_by_xpath("//*[@id='{}']//input".format(fieldID))[0] #WebDriverWait(self.driver, self.delay).until(EC.presence_of_element_located((by, field)))
+        mainElement = WebDriverWait(self.driver, self.delay).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@id='{}']//input".format(fieldID))))[0] #WebDriverWait(self.driver, self.delay).until(EC.presence_of_element_located((by, field)))
         self.driver.execute_script("arguments[0].click();", mainElement)
         mainElement = self.driver.find_elements_by_xpath("//*[@id='{}']//*[text() = '{}']".format(fieldID, searchString))[0]
         self.driver.execute_script("arguments[0].click();", mainElement)
@@ -19,7 +19,7 @@ class searchPage:
 
     def searchAndSelectDropdown(self, by, fieldID, dropdownClass, chevron, *searchStrings):
         WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element((By.CLASS_NAME, "spinner-wrapper")))
-        mainElement = self.driver.find_elements_by_xpath("//*[@id='{}']//input".format(fieldID))[0]
+        mainElement = WebDriverWait(self.driver, self.delay).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@id='{}']//input".format(fieldID))))[0]
         mainElement.click()
         mainElements = self.driver.find_elements_by_class_name(dropdownClass)
 
