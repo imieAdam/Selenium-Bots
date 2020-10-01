@@ -46,7 +46,7 @@ class ResultPage:
                             availableDate.time() <= datetime.strptime(timeFrame['end'], "%H:%M").time()) and
                             (not service['bookedDateTime'] or availableDate < datetime.strptime(service['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f'))):
                             return (availableDate, dateDiv)
-        raise Exception("No visit available")
+        raise Exception("Visits do not meet the criteria for booking")
 
     def __selectAvailableDate(self, dateDiv) -> None:
         ActionChains(self.driver).move_to_element(dateDiv.find_elements_by_class_name("term-item")[0].find_element_by_class_name("chevron")).perform()

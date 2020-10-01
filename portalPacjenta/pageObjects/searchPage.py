@@ -40,7 +40,7 @@ class searchPage:
         WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element_located((By.XPATH, "//*[@class='item']")))
         try:
             WebDriverWait(self.driver, self.delay).until(EC.presence_of_element_located((By.CLASS_NAME, "no-terms-message.text-center.mx-4")))
-            print("No visits available")
+            print("There are no visits available")
             return False
         except:
             return True

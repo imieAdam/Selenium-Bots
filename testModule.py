@@ -39,3 +39,5 @@ if searchPage.checkResults():
         config_reader.writeToConfig(dataFull)
     except Exception as e:
         print(str(e))
+
+driver.close()
