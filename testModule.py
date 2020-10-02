@@ -6,8 +6,9 @@ from portalPacjenta.pageObjects.resultPage import ResultPage
 from portalPacjenta.configObjects import config_reader
 from selenium.webdriver.common.by import By
 
+jsonFile = r".\config.json"
 driver = EC.startChrome()
-dataFull = config_reader.getConfigJsonData()
+dataFull = config_reader.getConfigJsonData(jsonFile)
 """
 if datetime.strptime(dataFull['services'][0]['service']['bookedDateTime'], '%Y-%m-%dT%H:%M:%S.%f') < datetime.now():
     dataFull['services'][0]['service']['bookedDateTime'] = ""
@@ -27,8 +28,7 @@ mainPage = None
 searchPage = searchPage(driver, 3)
 searchPage.searchAndSelect("city", "Kraków")
 searchPage.searchAndSelect("serviceVariant", "Stomatolog")
-searchPage.searchAndSelectDropdown(By.TAG_NAME, "facilities", 
-                                    "dropdown-list-group-item", "dropdown-chevron-click-area", "ul. Opolska 114")
+searchPage.searchAndSelectDropdown("facilities", "dropdown-chevron-click-area", "ul. Opolska 114")
 searchPage.visibilityOfXPath("//*[@id='facilities']//*[@class='dropdown-multiselect-clear']")
 searchPage.clickSearch()
 
@@ -36,7 +36,7 @@ if searchPage.checkResults():
     resultPage = ResultPage(driver, 3)
     try:
         dataFull = resultPage.selectVisit(dataFull)
-        config_reader.writeToConfig(dataFull)
+        config_reader.writeToConfig(jsonFile, dataFull)
     except Exception as e:
         print(str(e))
 

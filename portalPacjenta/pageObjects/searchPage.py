@@ -17,11 +17,13 @@ class searchPage:
         self.driver.execute_script("arguments[0].click();", mainElement)
 
 
-    def searchAndSelectDropdown(self, by, fieldID, dropdownClass, chevron, *searchStrings):
+    def searchAndSelectDropdown(self, fieldID, chevron, *searchStrings):
         WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element((By.CLASS_NAME, "spinner-wrapper")))
         mainElement = WebDriverWait(self.driver, self.delay).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@id='{}']//input".format(fieldID))))[0]
         mainElement.click()
-        mainElements = self.driver.find_elements_by_class_name(dropdownClass)
+        #mainElements = self.driver.find_elements_by_class_name(dropdownClass)
+        mainElements = WebDriverWait(self.driver, self.delay).until(EC.presence_of_all_elements_located((By.XPATH, "//*[@id='{}']//li".format(fieldID))))
+
 
         for searchString in searchStrings:
             for el in mainElements:
