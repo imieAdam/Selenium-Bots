@@ -5,8 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from datetime import datetime
 import locale
-from config_reader import getConfigJsonData
-from config_reader import writeToConfig
+from configObjects.config_reader import getConfigJsonData, writeToConfig
 
 class ResultPage:
     def __init__(self, driver, delay = 3):
