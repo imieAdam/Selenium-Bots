@@ -6,13 +6,14 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class MainPage:
 
-    contactButtonClass = r"button.right.main_popup_submit_btn"
-
     def __init__(self, driver, userMail):
+
+        self.contactButtonClass = r"//*[@class='button right main_popup_submit_btn']"
         self.delay = 3
         self.driver = driver
         try:
-            acceptContactInfoButton = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.CLASS_NAME, self.contactButtonClass)))
+            WebDriverWait(self.driver, self.delay).until(EC.invisibility_of_element((By.CLASS_NAME, "spinner-wrapper")))
+            acceptContactInfoButton = WebDriverWait(self.driver, self.delay).until(EC.presence_of_element_located((By.XPATH, self.contactButtonClass)))
             acceptContactInfoButton.click()
         except:
             pass

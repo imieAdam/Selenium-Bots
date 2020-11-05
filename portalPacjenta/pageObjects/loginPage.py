@@ -17,7 +17,7 @@ class LoginPage:
         login.send_keys(Keys.CONTROL + "a")
         login.send_keys(Keys.DELETE)
         login.send_keys(user)
-        password.send_keys(Keys.CONTROL + "a")
+        password.send_keys(Keys.CONTROL + "a") #TODO try: with id TempPassword except:
         password.send_keys(Keys.DELETE)
         password.send_keys(keyring.get_credential(pasService, pasUser).password)
         password.send_keys(Keys.RETURN)

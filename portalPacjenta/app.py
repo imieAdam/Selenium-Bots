@@ -1,4 +1,3 @@
-
 from chromeObjects import existingChrome as EC
 from pageObjects.loginPage import LoginPage
 from pageObjects.mainPage import MainPage
